@@ -50,6 +50,9 @@ Read these before making large decisions:
 ## AO Guidance
 
 - Use Codex-backed agents by default in this repo
+- Use the configured MCP stack instead of guessing:
+  `context7` for current library docs, `package-version` for dependency checks,
+  `filesystem` for repo-scoped file access, and `playwright` for UI verification
 - Prefer requirements and task decomposition before large implementation bursts
 - Keep tasks small enough to land clean PRs
 - Keep workflow definitions repo-local; do not assume bundled packs exist

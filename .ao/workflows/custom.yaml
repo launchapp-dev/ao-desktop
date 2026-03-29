@@ -3,7 +3,9 @@ tools_allowlist:
   - gh
   - ao
   - cargo
+  - rustup
   - node
+  - npx
   - npm
   - pnpm
   - bash
@@ -18,25 +20,34 @@ mcp_servers:
   github:
     command: npx
     args: ["-y", "gh-cli-mcp"]
+  package-version:
+    command: npx
+    args: ["-y", "mcp-package-version"]
+  filesystem:
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-filesystem", "/Users/samishukri/ao-desktop"]
+  playwright:
+    command: npx
+    args: ["-y", "@playwright/mcp", "--headless", "--isolated"]
 
 agents:
   default:
     model: gpt-5.4
     tool: codex
-    mcp_servers: ["ao", "context7"]
+    mcp_servers: ["ao", "context7", "filesystem"]
   implementation:
     model: gpt-5.4
     tool: codex
-    mcp_servers: ["ao", "context7"]
+    mcp_servers: ["ao", "context7", "filesystem", "package-version", "playwright"]
   swe:
     model: gpt-5.4
     tool: codex
-    mcp_servers: ["ao", "context7"]
+    mcp_servers: ["ao", "context7", "filesystem", "package-version", "playwright", "github"]
   em:
     model: gpt-5.4-mini
     tool: codex
-    mcp_servers: ["ao", "sequential-thinking"]
+    mcp_servers: ["ao", "sequential-thinking", "github", "filesystem"]
   po:
     model: gpt-5.4-mini
     tool: codex
-    mcp_servers: ["ao", "context7", "github"]
+    mcp_servers: ["ao", "context7", "sequential-thinking", "github", "filesystem"]

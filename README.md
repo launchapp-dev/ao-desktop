@@ -8,6 +8,7 @@ This repository is intentionally set up as an AO-first build target:
 - a clear product brief and implementation boundaries
 - local `.ao` workflow config and phase definitions that default to Codex-backed agents
 - seeded requirements and tasks so AO can build the product from inside this repo
+- MCP servers prewired for Tauri work: `context7`, `package-version`, repo-scoped `filesystem`, `playwright`, `github`, and `sequential-thinking`
 
 ## Product Position
 
