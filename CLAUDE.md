@@ -52,4 +52,5 @@ Read these before making large decisions:
 - Use Codex-backed agents by default in this repo
 - Prefer requirements and task decomposition before large implementation bursts
 - Keep tasks small enough to land clean PRs
-- Validate workflow and pack config after any `.ao` changes
+- Keep workflow definitions repo-local; do not assume bundled packs exist
+- Validate workflow config after any `.ao` changes

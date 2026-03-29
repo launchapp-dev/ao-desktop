@@ -3,4 +3,4 @@ workflows:
     name: Research Workflow
     description: Validate scope and produce findings without landing implementation changes.
     phases:
-      - requirements
+      - desktop-requirements

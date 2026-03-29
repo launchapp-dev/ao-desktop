@@ -6,7 +6,7 @@ This repository is intentionally set up as an AO-first build target:
 
 - a minimal Tauri 2 + React workspace
 - a clear product brief and implementation boundaries
-- local `.ao` workflow config that defaults to Codex-backed agents
+- local `.ao` workflow config and phase definitions that default to Codex-backed agents
 - seeded requirements and tasks so AO can build the product from inside this repo
 
 ## Product Position
@@ -23,6 +23,8 @@ AO Desktop should not:
 - fork or vendor the AO runtime
 - duplicate AO daemon, queue, or workflow execution logic
 - absorb the fleet control-plane concerns that belong in `ao-fleet`
+
+The repo-local workflows do not assume bundled AO packs are present. The delivery phases used by this repository are defined in `.ao/workflows/desktop-phases.yaml`.
 
 ## Reference Repos
 

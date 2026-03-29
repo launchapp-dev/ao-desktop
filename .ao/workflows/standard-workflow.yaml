@@ -1,9 +1,9 @@
 workflows:
   - id: standard-workflow
     name: Standard Workflow
-    description: Default task delivery workflow for this repository.
+    description: Default task delivery workflow for this repository using repo-local AO Desktop phases.
     phases:
-      - requirements
-      - implementation
-      - code-review
-      - testing
+      - desktop-requirements
+      - desktop-implementation
+      - desktop-code-review
+      - desktop-testing

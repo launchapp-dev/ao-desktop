@@ -3,5 +3,5 @@ workflows:
     name: Hotfix Workflow
     description: Fast-track workflow for urgent fixes.
     phases:
-      - implementation
-      - testing
+      - desktop-implementation
+      - desktop-testing

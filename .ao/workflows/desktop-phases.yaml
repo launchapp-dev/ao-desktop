@@ -1,0 +1,83 @@
+phase_catalog:
+  desktop-requirements:
+    label: Desktop Requirements
+    description: Refine task scope into implementation-ready acceptance criteria for AO Desktop.
+    category: planning
+    tags: ["planning", "requirements", "local"]
+  desktop-implementation:
+    label: Desktop Implementation
+    description: Deliver focused production changes for the current AO Desktop task.
+    category: build
+    tags: ["build", "implementation", "local"]
+  desktop-code-review:
+    label: Desktop Code Review
+    description: Review AO Desktop changes for correctness, regressions, and missing coverage.
+    category: review
+    tags: ["review", "quality", "local"]
+  desktop-testing:
+    label: Desktop Testing
+    description: Validate the AO Desktop workspace with the relevant build and test commands.
+    category: verification
+    tags: ["verification", "testing", "local"]
+
+phases:
+  desktop-requirements:
+    mode: agent
+    agent: po
+    directive: |
+      Refine the current task into implementation-ready scope for AO Desktop.
+
+      Steps:
+      1. Read `README.md`, `CLAUDE.md`, and `VISION.md` for product boundaries.
+      2. Inspect the current task, linked requirement, and any checklist state through AO.
+      3. Tighten acceptance criteria, note constraints, and identify the smallest shippable change.
+      4. Update AO task or requirement state when clarification materially improves execution.
+
+      Keep the repo boundary intact:
+      - AO Desktop wraps the AO CLI and does not absorb AO runtime internals.
+      - `ao-fleet` remains the multi-project control plane.
+
+      Output a concise implementation brief and persist task refinements through AO where useful.
+  desktop-implementation:
+    mode: agent
+    agent: swe
+    directive: |
+      Implement the current AO Desktop task with production-quality changes.
+
+      Constraints:
+      - keep the Rust backend thin and focused on desktop glue, process execution, persistence, and IPC
+      - prefer structured AO CLI JSON surfaces over parsing plain-text output
+      - do not reimplement AO daemon, queue, workflow, or task internals in this repository
+      - keep changes focused enough to land cleanly
+
+      Validate your changes before finishing. Commit the resulting work.
+    capabilities:
+      mutates_state: true
+      writes_files: true
+      requires_commit: true
+  desktop-code-review:
+    mode: agent
+    agent: swe
+    directive: |
+      Review the implementation without making changes.
+
+      Focus on:
+      - functional regressions
+      - incorrect AO CLI assumptions
+      - state-management and persistence risks
+      - missing tests or verification gaps
+
+      If issues remain, set verdict to rework and give an exact fix spec.
+      Only pass the phase if the change is ready as-is.
+  desktop-testing:
+    mode: agent
+    agent: swe
+    directive: |
+      Verify the AO Desktop change by running the relevant validation commands and inspecting the affected code.
+
+      Start with the desktop baseline where applicable:
+      - `pnpm build`
+      - `cargo check --manifest-path src-tauri/Cargo.toml`
+
+      Add any task-specific checks needed for confidence.
+      Do not modify code in this phase. If validation fails or coverage is inadequate, set verdict to rework with a precise fix spec.
