@@ -1,0 +1,108 @@
+:root {
+  color: #f3efe4;
+  background:
+    radial-gradient(circle at top left, rgba(94, 197, 255, 0.18), transparent 30%),
+    radial-gradient(circle at top right, rgba(255, 166, 77, 0.18), transparent 28%),
+    linear-gradient(180deg, #0a1018 0%, #111a26 52%, #0c131d 100%);
+  font-family: "SF Pro Display", "Söhne", "Segoe UI", sans-serif;
+  font-synthesis: none;
+  font-weight: 400;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+}
+
+code {
+  font-family: "JetBrains Mono", "SF Mono", monospace;
+}
+
+.bootstrap-shell {
+  min-height: 100vh;
+  padding: 64px 28px 40px;
+}
+
+.hero {
+  max-width: 840px;
+  margin: 0 auto 28px;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: #82d4ff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(3rem, 7vw, 5.6rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+}
+
+.lede {
+  max-width: 720px;
+  margin: 18px 0 0;
+  color: rgba(243, 239, 228, 0.82);
+  font-size: 1.05rem;
+}
+
+.panel-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.panel {
+  padding: 22px;
+  border: 1px solid rgba(130, 212, 255, 0.14);
+  border-radius: 22px;
+  background: rgba(12, 19, 29, 0.76);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(14px);
+}
+
+.panel h2 {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+}
+
+.panel p,
+.panel li {
+  color: rgba(243, 239, 228, 0.78);
+}
+
+.panel ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+@media (max-width: 960px) {
+  .panel-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bootstrap-shell {
+    padding: 44px 18px 28px;
+  }
+}

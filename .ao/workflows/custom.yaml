@@ -1,0 +1,42 @@
+tools_allowlist:
+  - git
+  - gh
+  - ao
+  - cargo
+  - node
+  - npm
+  - pnpm
+  - bash
+
+mcp_servers:
+  context7:
+    command: npx
+    args: ["-y", "@upstash/context7-mcp"]
+  sequential-thinking:
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+  github:
+    command: npx
+    args: ["-y", "gh-cli-mcp"]
+
+agents:
+  default:
+    model: gpt-5.4
+    tool: codex
+    mcp_servers: ["ao", "context7"]
+  implementation:
+    model: gpt-5.4
+    tool: codex
+    mcp_servers: ["ao", "context7"]
+  swe:
+    model: gpt-5.4
+    tool: codex
+    mcp_servers: ["ao", "context7"]
+  em:
+    model: gpt-5.4-mini
+    tool: codex
+    mcp_servers: ["ao", "sequential-thinking"]
+  po:
+    model: gpt-5.4-mini
+    tool: codex
+    mcp_servers: ["ao", "context7", "github"]
