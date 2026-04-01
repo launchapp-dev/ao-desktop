@@ -1,4 +1,5 @@
 import "./App.css";
+import { McpServerList } from "./components/McpServerList";
 
 function App() {
   return (
@@ -52,6 +53,10 @@ function App() {
             </li>
           </ul>
         </article>
+      </section>
+
+      <section className="settings-section">
+        <McpServerList />
       </section>
     </main>
   );
