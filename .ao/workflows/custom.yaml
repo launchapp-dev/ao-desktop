@@ -33,21 +33,21 @@ mcp_servers:
 agents:
   default:
     model: gpt-5.4
-    tool: codex
+    tool: claude
     mcp_servers: ["ao", "context7", "filesystem"]
   implementation:
     model: gpt-5.4
-    tool: codex
+    tool: claude
     mcp_servers: ["ao", "context7", "filesystem", "package-version", "playwright"]
   swe:
     model: gpt-5.4
-    tool: codex
+    tool: claude
     mcp_servers: ["ao", "context7", "filesystem", "package-version", "playwright", "github"]
   em:
     model: gpt-5.4-mini
-    tool: codex
+    tool: claude
     mcp_servers: ["ao", "sequential-thinking", "github", "filesystem"]
   po:
     model: gpt-5.4-mini
-    tool: codex
+    tool: claude
     mcp_servers: ["ao", "context7", "sequential-thinking", "github", "filesystem"]
