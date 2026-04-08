@@ -32,22 +32,22 @@ mcp_servers:
 
 agents:
   default:
-    model: gpt-5.4
+    model: claude-sonnet-4-6
     tool: claude
     mcp_servers: ["ao", "context7", "filesystem"]
   implementation:
-    model: gpt-5.4
+    model: claude-sonnet-4-6
     tool: claude
     mcp_servers: ["ao", "context7", "filesystem", "package-version", "playwright"]
   swe:
-    model: gpt-5.4
+    model: claude-sonnet-4-6
     tool: claude
     mcp_servers: ["ao", "context7", "filesystem", "package-version", "playwright", "github"]
   em:
-    model: gpt-5.4-mini
+    model: claude-haiku-4-5
     tool: claude
     mcp_servers: ["ao", "sequential-thinking", "github", "filesystem"]
   po:
-    model: gpt-5.4-mini
+    model: claude-haiku-4-5
     tool: claude
     mcp_servers: ["ao", "context7", "sequential-thinking", "github", "filesystem"]
