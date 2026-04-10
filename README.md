@@ -1,40 +1,74 @@
-# AO Desktop
+# Animus Den
 
-AO Desktop is the desktop product layer for the [AO CLI](https://github.com/launchapp-dev/ao).
+The native desktop app for [Animus](https://animus.dev) — the VS Code of autonomous agents.
 
-This repository is intentionally set up as an AO-first build target:
+Den connects to a local (or remote) Animus daemon and surfaces everything it can do: agent conversations, workflow execution, task management, live logs, and configuration. If the daemon can do it, Den surfaces it.
 
-- a minimal Tauri 2 + React workspace
-- a clear product brief and implementation boundaries
-- local `.ao` workflow config and phase definitions that default to Codex-backed agents
-- seeded requirements and tasks so AO can build the product from inside this repo
-- MCP servers prewired for Tauri work: `context7`, `package-version`, repo-scoped `filesystem`, `playwright`, `github`, and `sequential-thinking`
+> **Status: Bootstrap** — Tauri v2 + React 19 scaffold is live. MCP server config UI shipped. Core daemon views are next.
 
-## Product Position
+---
 
-AO Desktop should:
+## Architecture
 
-- wrap the existing `ao` CLI instead of reimplementing AO internals
-- feel like a focused operator console for one AO project at a time
-- surface project selection, daemon status, queue/task/workflow state, and command execution
-- reuse the AO control surface by spawning `ao` CLI commands and consuming AO MCP when useful
+```
+┌─────────────────────────────────────────┐
+│  Animus Den (Tauri v2)                  │
+│                                         │
+│  ┌───────────────────────────────────┐  │
+│  │  React 19 + TypeScript            │  │
+│  │  (same design system as Cloud)    │  │
+│  └──────────────┬────────────────────┘  │
+│                 │ Tauri IPC             │
+│  ┌──────────────▼────────────────────┐  │
+│  │  Rust backend (thin glue only)    │  │
+│  │  process exec · persistence · IPC │  │
+│  └──────────────┬────────────────────┘  │
+└─────────────────┼────────────────────────┘
+                  │ HTTP + WebSocket
+           ┌──────▼──────┐
+           │ Animus      │
+           │ daemon      │
+           └─────────────┘
+```
 
-AO Desktop should not:
+**Frontend:** React 19 + TypeScript + Vite. UI state, routing, all views.
 
-- fork or vendor the AO runtime
-- duplicate AO daemon, queue, or workflow execution logic
-- absorb the fleet control-plane concerns that belong in `ao-fleet`
+**Backend (Rust):** Thin Tauri v2 shell — process execution, local persistence, IPC only. Does not duplicate daemon, queue, or workflow logic.
 
-The repo-local workflows do not assume bundled AO packs are present. The delivery phases used by this repository are defined in `.ao/workflows/desktop-phases.yaml`.
+**Daemon bridge:** Connects via the daemon's local HTTP API + WebSocket for streaming. Can target remote daemons via cloud API or SSH tunnel.
 
-## Reference Repos
+---
 
-Use the sibling repos under `brain/repos` as the main references:
+## Features (Ship Order)
 
-- `ao-dashboard` for Tauri desktop-client patterns around AO
-- `ao-fleet` for the control-plane boundary and "orchestrate AO, do not absorb it"
-- `agent-orchestrator` for the legacy desktop attempt and what not to rebuild wholesale
-- `ao-starter` for AO bootstrap patterns
+| Layer | Feature | Status |
+|---|---|---|
+| 1 | Tauri v2 + React 19 scaffold | Done |
+| 1 | MCP server config UI (stdio + HTTP) | Done |
+| 1 | Daemon connection + status (start/stop/health) | Backlog |
+| 2 | Live log stream + error dashboard | Backlog |
+| 3 | Task board (kanban) + requirements view | Backlog |
+| 4 | Agent conversations (live chat + tool calls) | Backlog |
+| 5 | Workflow DAG editor (ReactFlow) + live execution | Backlog |
+| 6 | Configuration editor (YAML + validation) | Backlog |
+| 7 | File browser + memory browser | Backlog |
+| 8 | Remote daemon support | Backlog |
+| 9 | macOS packaging + auto-update | Backlog |
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Desktop shell | Tauri v2 |
+| Frontend | React 19, TypeScript 5.8 |
+| Bundler | Vite 7 |
+| Backend | Rust (Tauri plugins only) |
+| Package manager | pnpm |
+| Workflow graphing | ReactFlow (planned) |
+
+---
 
 ## Local Development
 
@@ -43,14 +77,57 @@ pnpm install
 pnpm tauri dev
 ```
 
-## AO Workflow
-
-This repo is meant to be worked by AO itself.
-
-Typical loop:
+Build only the frontend:
 
 ```bash
-ao requirements list --project-root .
-ao task list --project-root .
-ao workflow run --project-root . --task-id TASK-001 --workflow-ref standard-workflow
+pnpm build
 ```
+
+---
+
+## Product Scope
+
+**Den does:**
+- Give developers a visual interface for watching agents think and act in real time
+- Surface all daemon capabilities: task board, workflow execution, agent conversations, logs
+- Connect to the daemon's HTTP API + WebSocket — no duplicate runtime logic
+- Work offline-first; sync when connected
+- Target macOS first, then Linux and Windows
+
+**Den does not:**
+- Reimplement AO daemon, queue, or workflow execution
+- Absorb fleet control-plane concerns (that belongs in Animus Pack / `ao-fleet`)
+- Fork or vendor the Animus runtime
+
+---
+
+## Automated Development
+
+This repo is built by Animus itself.
+
+```bash
+# Check the backlog
+animus requirements list --project-root .
+animus task list --project-root .
+
+# Queue a task
+animus queue enqueue --project-root . \
+  --title "implement daemon status view" \
+  --workflow-ref standard
+```
+
+Workflow definitions are repo-local in `.ao/workflows/`. Agents use the configured MCP stack: `context7` for library docs, `package-version` for dependency checks, `filesystem` for repo-scoped access, and `playwright` for UI verification.
+
+---
+
+## Part of the Animus Family
+
+| Product | Name | What It Is |
+|---|---|---|
+| Core CLI | **Animus** | The CLI and daemon |
+| Cloud | **Animus Cloud** | Managed execution + dashboards |
+| Fleet | **Animus Pack** | Multi-repo orchestration |
+| Desktop | **Animus Den** | This repo — native GUI |
+| Web dashboard | **Animus Eye** | Browser-based overview |
+| Scaffolder | **Animus Summon** | `animus summon` to start a project |
+| Memory MCP | **Animus Recall** | Persistent agent memory |
